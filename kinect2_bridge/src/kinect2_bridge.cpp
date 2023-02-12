@@ -1031,7 +1031,7 @@ private:
     if(status[IR_SD] || status[IR_SD_RECT])
     {
       ir = cv::Mat(irFrame->height, irFrame->width, CV_32FC1, irFrame->data);
-      ir.convertTo(images[IR_SD], CV_16U);
+      ir.convertTo(images[IR_SD], CV_8UC1, 0.03, 0);
     }
 
     listenerIrDepth->release(frames);
@@ -1379,8 +1379,6 @@ private:
 
     switch(type)
     {
-    case IR_SD:
-    case IR_SD_RECT:
     case DEPTH_SD:
     case DEPTH_SD_RECT:
     case DEPTH_HD:
@@ -1394,6 +1392,8 @@ private:
     case COLOR_QHD_RECT:
       msgImage.encoding = sensor_msgs::image_encodings::BGR8;
       break;
+    case IR_SD:
+    case IR_SD_RECT:
     case MONO_HD:
     case MONO_HD_RECT:
     case MONO_QHD:
@@ -1419,8 +1419,6 @@ private:
 
     switch(type)
     {
-    case IR_SD:
-    case IR_SD_RECT:
     case DEPTH_SD:
     case DEPTH_SD_RECT:
     case DEPTH_HD:
@@ -1436,6 +1434,8 @@ private:
       msgImage.format = sensor_msgs::image_encodings::BGR8 + "; jpeg compressed bgr8";
       cv::imencode(".jpg", image, msgImage.data, compressionParams);
       break;
+    case IR_SD:
+    case IR_SD_RECT:
     case MONO_HD:
     case MONO_HD_RECT:
     case MONO_QHD:
